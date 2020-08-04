@@ -38,8 +38,8 @@ describe.only("Things Endpoints", function () {
       method: supertest(app).get,
     },
     {
-      name: "POST /api/things",
-      path: "/api/things",
+      name: "POST /api/reviews",
+      path: "/api/reviews",
       method: supertest(app).post,
     },
   ];
@@ -58,7 +58,7 @@ describe.only("Things Endpoints", function () {
           .expect(401);
       });
 
-      it(`responds 401 when invalid user`, () => {
+      it.only(`responds 401 when invalid user`, () => {
         const userInvalidCreds = { user_name: "fake", password: "news" };
         return endpoint
           .method(endpoint.path)
