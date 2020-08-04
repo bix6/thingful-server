@@ -3,7 +3,7 @@ const app = require("../src/app");
 const helpers = require("./test-helpers");
 const supertest = require("supertest");
 
-describe.only("Things Endpoints", function () {
+describe("Protected Endpoints", function () {
   let db;
 
   const { testUsers, testThings, testReviews } = helpers.makeThingsFixtures();
@@ -58,7 +58,7 @@ describe.only("Things Endpoints", function () {
           .expect(401);
       });
 
-      it.only(`responds 401 when invalid user`, () => {
+      it(`responds 401 when invalid user`, () => {
         const userInvalidCreds = { user_name: "fake", password: "news" };
         return endpoint
           .method(endpoint.path)
