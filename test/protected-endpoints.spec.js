@@ -50,30 +50,23 @@ describe("Protected Endpoints", function () {
         return endpoint.method(endpoint.path).expect(401);
       });
 
-      it(`responds 401 when no credentials in token`, () => {
-        const userNoCreds = { user_name: "", password: "" };
+      it(`responds 401 'Unauthorized request' when invalid JWT secret`, () => {
+        const validUser = testUsers[0];
+        const invalidSecret = "bad-secret";
         return endpoint
           .method(endpoint.path)
-          .set("Authorization", helpers.makeAuthHeader(userNoCreds))
+          .set(
+            "Authorization",
+            helpers.makeAuthHeader(validUser, invalidSecret)
+          )
           .expect(401);
       });
 
-      it(`responds 401 when invalid user`, () => {
-        const userInvalidCreds = { user_name: "fake", password: "news" };
+      it(`responds 401 'Unauthorized request' when invalid subject`, () => {
+        const invalidUser = { user_name: "fake", id: 1 };
         return endpoint
           .method(endpoint.path)
-          .set("Authorization", helpers.makeAuthHeader(userInvalidCreds))
-          .expect(401);
-      });
-
-      it(`responds 401 when invalid password`, () => {
-        const userInvalidPass = {
-          user_name: testUsers[0].user_name,
-          password: "wrong",
-        };
-        return endpoint
-          .method(endpoint.path)
-          .set("Authorization", helpers.makeAuthHeader(userInvalidPass))
+          .set("Authorization", helpers.makeAuthHeader(invalidUser))
           .expect(401);
       });
     });
